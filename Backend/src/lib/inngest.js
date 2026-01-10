@@ -1,6 +1,7 @@
 import {Inngest} from "inngest"
 import { connectDB } from "./db.js"
 import User from "../models/user.js"
+import { deleteStreamUser, upsertStreamUser } from "./stream.js";
 
 export const inngest = new Inngest({ id: "talent-iq" });
 
@@ -27,10 +28,19 @@ const syncUser = inngest.createFunction(
       };
 
       await User.create(newUser);
-      console.log(`✅ User created: ${email}`);
+      console.log(`User created : ${email}`);
+
+      //stream
+      await upsertStreamUser({
+        id : newUser.clerkId.toString(),
+        name : newUser.name,
+        image : newUser.profileImage``
+      })
+
+      console.log(`User created in Stream : ${email}` )
 
     } catch (err) {
-      console.error("sync-user failed:", err);
+      console.error("sync-user failed : ", err);
       throw err; 
     }
   }
@@ -48,6 +58,10 @@ const deleteUserFromDB = inngest.createFunction(
 
       await User.deleteOne({ clerkId: id });
       console.log("User deleted from DB");
+
+      await deleteStreamUser(id.toString())
+      console.log("User deleted form stream")
+
     } catch (err) {
       console.error(" Error deleting user:", err);
       throw err;
