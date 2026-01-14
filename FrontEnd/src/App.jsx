@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from "@c
 function App() {
   return (
     <>
-      <h1>Welcome to the app</h1>
+      <h1 className="text-2xl ">Welcome to the app</h1>
       <SignedOut>
         <SignInButton mode="modal">
           <button className="">
