@@ -1,6 +1,10 @@
+import Navbar from "../components/Navbar"
+
 function DashBoardPage() {
   return (
-    <div>DashBoardPage</div>
+    <div className="min-h-screen bg-base-200">
+      <Navbar />
+    </div>
   )
 }
 
